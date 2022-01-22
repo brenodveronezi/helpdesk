@@ -1,22 +1,37 @@
 package com.breno.helpdesk.domain;
 
 import com.breno.helpdesk.domain.enums.Perfil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class Pessoa {
+@Entity
+public abstract class Pessoa implements Serializable {
+    private static final long serialVersionUID = 1L;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
      protected Integer id;
      protected String nome;
+
+     @Column(unique = true)
      protected String cpf;
+     @Column(unique = true)
      protected String email;
      protected String senha;
      //Set impede valores duplicados e HashSet impede excecao de ponteiro java;
+
+    @ElementCollection(fetch = FetchType.EAGER) // Colecao de elemento Integer, qd o usuario é chamado vem com ele
+    @CollectionTable(name = "PERFIS")
      protected Set<Integer> perfis = new HashSet<>();
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
      protected LocalDate dataCriacao = LocalDate.now();
 
      public Pessoa(){
