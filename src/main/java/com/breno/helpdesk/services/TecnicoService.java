@@ -1,6 +1,7 @@
 package com.breno.helpdesk.services;
 
 import com.breno.helpdesk.domain.Tecnico;
+import com.breno.helpdesk.domain.dtos.TecnicoDTO;
 import com.breno.helpdesk.domain.repositores.TecnicoRepository;
 import com.breno.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +23,11 @@ public class TecnicoService {
 
     public List<Tecnico> findAll() {
         return repository.findAll();
+    }
+
+    public Tecnico create(TecnicoDTO objDTO) {
+        objDTO.setId(null);
+        Tecnico newObj = new Tecnico(objDTO);
+        return repository.save(newObj);
     }
 }
