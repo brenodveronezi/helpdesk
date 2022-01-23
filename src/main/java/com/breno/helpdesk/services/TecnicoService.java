@@ -10,6 +10,7 @@ import com.breno.helpdesk.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -38,6 +39,14 @@ public class TecnicoService {
         return repository.save(newObj);
     }
 
+    public Tecnico update(Integer id, @Valid TecnicoDTO objDTO) {
+        objDTO.setId(id);
+        findById(id);
+        validaPorCpfEEmail(objDTO);
+        Tecnico oldObj = new Tecnico(objDTO);
+        return repository.save(oldObj);
+    }
+
     private void validaPorCpfEEmail(TecnicoDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
         if(obj.isPresent() && !Objects.equals(obj.get().getId(), objDTO.getId())) {
@@ -51,4 +60,5 @@ public class TecnicoService {
             throw  new DataIntegrityViolationException("Email já cadastrado no sistema!");
         }
     }
+
 }
