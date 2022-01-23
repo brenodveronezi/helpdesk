@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -39,12 +40,14 @@ public class TecnicoService {
 
     private void validaPorCpfEEmail(TecnicoDTO objDTO) {
         Optional<Pessoa> obj = pessoaRepository.findByCpf(objDTO.getCpf());
-        if(obj.isPresent() && obj.get().getId() != objDTO.getId()) {
+        if(obj.isPresent() && !Objects.equals(obj.get().getId(), objDTO.getId())) {
+            //obj.get().getId() != objDTO.getId())
             throw  new DataIntegrityViolationException("CPF já cadastrado no sistema!");
         }
 
         obj = pessoaRepository.findByEmail(objDTO.getEmail());
-        if(obj.isPresent() && obj.get().getId() != objDTO.getId()) {
+        if(obj.isPresent() && !Objects.equals(obj.get().getId(), objDTO.getId())) {
+            //obj.get().getId() != objDTO.getId())
             throw  new DataIntegrityViolationException("Email já cadastrado no sistema!");
         }
     }
