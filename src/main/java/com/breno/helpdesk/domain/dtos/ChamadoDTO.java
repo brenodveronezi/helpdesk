@@ -5,6 +5,7 @@ import com.breno.helpdesk.domain.enums.Status;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -16,11 +17,17 @@ public class ChamadoDTO implements Serializable {
     protected LocalDate dataAbertura = LocalDate.now();
     @JsonFormat(pattern = "dd/MM/yyyy")
     protected LocalDate dataFechamento;
+    @NotNull(message = "O campo prioridade é requerido")
     protected Integer prioridade;
+    @NotNull(message = "O campo status é requerido")
     protected Integer status;
+    @NotNull(message = "O campo titulo é requerido")
     protected String titulo;
+    @NotNull(message = "O campo observacoes é requerido")
     protected String observacoes;
+    @NotNull(message = "O campo tecnico é requerido")
     protected Integer tecnico;
+    @NotNull(message = "O campo cliente é requerido")
     protected Integer cliente;
     protected String nomeTecnico;
     protected String nomeCliente;
